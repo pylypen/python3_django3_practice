@@ -6,11 +6,11 @@ services:
     build:
       context: .
       dockerfile: ./docker/python/Dockerfile
-    container_name: btre_app_python
+    container_name: elastic_django_app_python
     ports:
       - "8080:8080"
     volumes:
-      - ./btre:/btre
+      - ./:/elastic_django
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8080"
     environment:
@@ -19,28 +19,28 @@ services:
       - DB_USER=homestead
       - DB_PASS=secret
     depends_on:
-      - db
+      - es7
 
   #Postgres Service
-  db:
-    image: postgres:12.5
-    container_name: btre_postgres
-    restart: unless-stopped
-    ports:
-      - "7770:5432"
-    environment:
-      POSTGRES_DB: homestead
-      POSTGRES_USER: homestead
-      POSTGRES_PASSWORD: secret
-      SERVICE_TAGS: dev
-      SERVICE_NAME: postgres
-    working_dir: /btre
-    volumes:
-      - ./btre:/btre
+#  db:
+#    image: postgres:12.5
+#    container_name: btre_postgres
+#    restart: unless-stopped
+#    ports:
+#      - "7770:5432"
+#    environment:
+#      POSTGRES_DB: homestead
+#      POSTGRES_USER: homestead
+#      POSTGRES_PASSWORD: secret
+#      SERVICE_TAGS: dev
+#      SERVICE_NAME: postgres
+#    working_dir: /elastic_django
+#    volumes:
+#      - ./:/elastic_django
 
   es7:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.5.2
-    container_name: es7
+    container_name: elastic_django_es7
     environment:
       - node.name=es7
       - cluster.name=es-docker-cluster

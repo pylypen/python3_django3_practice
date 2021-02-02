@@ -7,9 +7,9 @@ COPY ./docker/python/requirements.txt /requirements.txt
 RUN apt-get install default-libmysqlclient-dev
 RUN pip install -r /requirements.txt
 
-RUN mkdir /btre
-WORKDIR /btre
-COPY ./btre /btre
+RUN mkdir /elastic_django
+WORKDIR /elastic_django
+COPY ./ /elastic_django
 
 RUN useradd user
 
