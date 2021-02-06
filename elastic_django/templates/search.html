@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Elastic7 + Django3</title>
+</head>
+<body>
+    <form action="">
+        <input type="text" name="q">
+        <input type="submit" value="Search">
+    </form>
+    <div>
+        {{ query }}
+    </div>
+    <div>
+        {% for result in results %}
+            <p>
+                <ul>
+                    <li>
+                        <a href="{{ result.url }}">{{ result.title }}</a>
+                    </li>
+                    <li>
+                        {{ result.id }}
+                    </li>
+                    <li>
+                        {{ result.index }}
+                    </li>
+                    <li>
+                        {{ result.content }}
+                    </li>
+                </ul>
+            </p>
+        {%  endfor %}
+    </div>
+</body>
+</html>
