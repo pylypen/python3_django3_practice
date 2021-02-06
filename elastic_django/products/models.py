@@ -14,3 +14,7 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return f'products/{self.id}'
+
+    @property
+    def elastic_score(self):
+        return 0.95

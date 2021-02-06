@@ -8,7 +8,7 @@ ELASTIC_HOST = getattr(settings, 'ELASTIC_HOSTS_KEY')
 client = elasticsearch.Elasticsearch(hosts=[ELASTIC_HOST])
 
 
-def perform_lookup(query, index=None, fields=None):
+def perform_lookup(query, index=None, fields=None, internal_sort=True):
     if index is None:
         index = ["posts", "products"]
     if fields is None:
@@ -23,18 +23,20 @@ def perform_lookup(query, index=None, fields=None):
     results = []
 
     for hit in search_results:
-        print(hit.id)
-        print(hit.title)
-        print(hit.meta.index)
-        print(hit.meta.score)
+        elasticsearch_score = hit.meta.score
+        hit_score = hit.score
         data = {
             "id": hit.id,
             "title": hit.title,
             "index": hit.meta.index,
             "content": hit.content,
             "url": hit.url,
-            "score": hit.meta.score,
+            "score": elasticsearch_score * hit_score,
         }
+        print(data)
         results.append(data)
+
+    if internal_sort:
+        results = sorted(results, key=lambda x: x['score'], reverse=True)
 
     return results

@@ -6,6 +6,7 @@ from .models import Post
 @registry.register_document
 class PostDocument(Document):
     url = fields.TextField(attr='get_absolute_url')
+    score = fields.FloatField(attr="elastic_score")
 
     class Index:
         """
